@@ -1,0 +1,57 @@
+I wanted to access a variable in two files without passing it in between functions. So I thought of creating a static variable which can be called by either files.
+
+There were many issues that I faced in terms of having a static vector. I first tried by having a static int* ptr. There were multiple issues which is hard to document.
+But still, I'll give a shitty account of it. 
+
+Folder Two:
+
+Obj class had
+private member-> static int* ptr
+public method-> int* get_ptr(){ return ptr;}
+
+and after the class declaration, I did: int* Obj::ptr = nullptr;
+
+In class A, in func() ->
+int * ptr = Obj::get_ptr;
+Now I wanted to convert this pointer to an integer into a vector. I tried:
+vector<int> vec;
+ptr = &vec;
+vec.resize(5);
+//fill values in vec.
+
+In main(), I called A->func() and then:
+int* arr = Obj::get_ptr;
+vector<int>& vec = *arr;
+//print values in vec.
+I expected this to work but it didn't.
+
+SO I LEARNED that VECTOR<INT>* is a thing and basically means a pointer to a vector.
+
+Folder Three:
+
+So I thought of changing the int* to vector<int>* ptr in Obj.
+Thought it compiled. I started to get segmentation faults. This is not working because the ptr variable being returned from get_ptr is caught in another vector<int>* variable (vector<int>* arr) inside func()
+The scope of arr is limited to that of func(). Now, ptr still points to nullptr, where we set arr to point to newly created vector. When we see value of ptr in myfile.cc, it is still nullptr.
+And we try accessing some element, we get segfault as there is no element. 
+
+To tackle this issue, we should return address of the pointer ptr from get_ptr and catch it in vector<int>** arr.
+
+Folder Four:
+In this, in myheader.h, there is commented code which wasn't working. But the uncommented code made it work.
+So catching the vector<int>* ptr in vector<int> ** arr.
+Now instead of making a locally scoped vector and then assigning it's address to *arr, what I am doing is dynamically allocating memory using the new operator.
+
+So I LEARNED that just like other types, I can use NEW to make a VECTOR<INT>;
+
+Now (*arr) give ptr of Obj. And ptr points to the final vector. So (*ptr)[i] will give me it's elements. So basically, elements can be accessed like (*(*arr))[i].
+
+ 
+CURRENT FOLDER:
+The easiest of all, that make static vector<int> as member of Obj.
+
+So I LEARNED that we can initialize static vector like: vector<int> Obj::vec;
+That's it. 
+When returning in get_ptr, return address of vector and catch it in pointer. (vector<int> *)
+
+Also, one more thing I LEARNED is that VECTOR<INT>& can be data type as well, and not just restricted to function parameters.
+ 

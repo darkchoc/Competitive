@@ -17,6 +17,7 @@ using namespace std;
 
 // "3[123[abc]]"
 
+//A similar question is: https://leetcode.com/problems/number-of-atoms/
 
 bool isdigit_(char c){
 	if(c-'0'>=0 && c-'0'<=9)

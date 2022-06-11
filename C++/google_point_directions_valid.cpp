@@ -24,19 +24,21 @@ typedef struct Edge{
     Edge(string f, string t, int w): from(f), to(t), weight(w){};
 } Edge;
 
-bool bellmanFord(vector<Edge> &edges, set<string> &vertices){
+bool bellmanFord(vector<Edge> &edges, set<string> &vertices, set<string> &visited, string source){
     map<string, int> dist;
-    int n = vertices.size();
-    dist[(*vertices.begin())] = 0;
+    visited.insert(source);
+    int n = vertices.size(); //can be optimized to run only till size of component, but here we are running till n-1 times.
+    dist[source] = 0;
     for(int i=0; i<n-1; i++){
         for(int j=0; j<edges.size(); j++){
             string u = edges[j].from;
             string v = edges[j].to;
             int w = edges[j].weight;
             if(dist.find(u)!=dist.end()){
-                if(dist.find(v)==dist.end())
+                if(dist.find(v)==dist.end()){
                     dist[v] = dist[u] + w;
-                else if(dist[v] > dist[u] + w)
+                    visited.insert(v);
+                } else if(dist[v] > dist[u] + w)
                     dist[v] = dist[u] + w;
             }
         }
@@ -46,8 +48,21 @@ bool bellmanFord(vector<Edge> &edges, set<string> &vertices){
         string u = edges[i].from;
         string v = edges[i].to;
         int w = edges[i].weight;
-        if(dist[v] > dist[u] + w)
-           return true; 
+        if(dist.find(u)!=dist.end())
+            if(dist[v] > dist[u] + w)
+                return true; 
+    }
+    return false;
+}
+
+bool dfsFollowedByBellmanFord(vector<Edge> &edges, set<string> &vertices){
+    set<string> visited;
+    for(set<string>::iterator it = vertices.begin(); it!=vertices.end(); it++){
+        if(visited.find(*it)==visited.end()){
+            if(bellmanFord(edges, vertices, visited, *it)){
+                return true;
+            }
+        }
     }
     return false;
 }
@@ -90,12 +105,12 @@ bool isValid(vector<vector<string> > &input){
 
     //Now we have a graph in yplane and xplane. Two points will have 0 edge in between them if their coordinates are equal (x or y). Otherwise a -1 weight edge to represent inequality. In yplane, we only have edges going to north, and in xplane, we have edges going to east.
 
-
-    //Now check if there is any cycle that has -1 weight edge. This boils down to finding whether their is a negative weight cycle in the graph. We can do it using Bellman Ford.
-    bool negativeCycleFound = bellmanFord(yplane, vertices);
+    //Now for each connected component, apply bellmanFord to check if there is any cycle that has -1 weight edge. 
+    //This boils down to finding whether their is a negative weight cycle in the graph. We can do it using Bellman Ford.
+    bool negativeCycleFound = dfsFollowedByBellmanFord(yplane, vertices);
     if(negativeCycleFound)
         return false;
-    return !bellmanFord(xplane, vertices);
+    return !dfsFollowedByBellmanFord(xplane, vertices);
 }
 
 int main(){

@@ -1,3 +1,5 @@
+// https://leetcode.com/discuss/interview-question/1581894/bookingcom-onsite-hotel-list
+
 #include <bits/stdc++.h>
 using namespace std;
 

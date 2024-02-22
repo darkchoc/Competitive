@@ -41,6 +41,11 @@ int main(){
 	/*
 	base class pointer pointing to derived class object will call base class's functions and access base class's fields,
 	but if the function is virtual, then it will call the derived class function.  
+
+	This is because in C++ we have STATIC / COMPILE TIME POLYMORPHISM (EARLY BINDING). So what function will be called is decided at compile time itself. Since pointer is of parent type, it will call functions of parent class, unless it is a virtual function, in which case it will call function of child class. So using "virtual" keyword allows a function to achieve DYNAMIC/RUNTIME PLOYMORPHISM (LATE BINDING), where method to be called is determined at runtime by looking at the object the pointer is pointing to.
+
+	In case of Java, we have RUNTIME/DYNAMIC POLYMORPHISM. All functions are virtual by default. 
+
 	*/
 	cout << p2->age << " " << endl; //30
 	p2->print(); //This is parent print

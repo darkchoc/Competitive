@@ -40,7 +40,7 @@ void expectedValueOnDrawingRedBlackCards(){
     int r = 1;
     int b = 3;
     vector<vector<double> > dp_recursive(r+1, vector<double> (b+1, -1));
-    int recursiveAnswer = helper(r, b, dp_recursive);
+    double recursiveAnswer = helper(r, b, dp_recursive);
 
     //iterative code
     vector<vector<double> > dp (r+1, vector<double> (b+1, 0));
@@ -57,7 +57,8 @@ void expectedValueOnDrawingRedBlackCards(){
         }
     }
 
-    int iterativeAnswer = dp[r][b];    
+    double iterativeAnswer = dp[r][b];  
+    cout << "expected val: " << recursiveAnswer << " "  << iterativeAnswer << endl; 
 }
 
 int query(vector<int> &reqdArr, int l, int r){

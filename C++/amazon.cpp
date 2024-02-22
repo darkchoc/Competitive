@@ -1,3 +1,4 @@
+// https://leetcode.com/discuss/interview-question/1025705/amazon-oa-prime-air-time
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -80,6 +81,7 @@ int main(){
 	return 0;
 }
 
+/*
 We keep the forwardRoutes as it. But we sort the return routes in ascending order, according to the distance. 
 Now, for every forward route, we apply binary search on return routes list to find the largest return route that can be combined with the forward route. This complexity of this 
 step is O(log(n)). After finding that route, we check whether the combination of this return route and forward route is maximum uptil now. If it is, we clear our answer vector 
@@ -89,3 +91,4 @@ In the case when the route is maximum uptil now, we also check if there are othe
 we add them too in the answer vector.  
 
 Since we are performing binary search on return routes list for every route in the forward routes list, the complexity will be O(nLogn).
+*/

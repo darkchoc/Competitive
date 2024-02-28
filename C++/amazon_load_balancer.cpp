@@ -3,8 +3,10 @@
 There are n processors. Each processor has some jobs scheduler already, given in the array jobs. We are required to schedule k more jobs in total. Assign them to the processors such that the difference between max and min jobs that a processor has to execute is minimum. 
 Eg: If there are 3 processors and they already have (2, 6, 3) jobs scheduled and we have to schedule k=3 more jobs, we can get: 4,6,4 as final numbers and min diff would be (2).
 */
+#include <vector>
+#include <algorithm>
+#include <iostream>
 
-#include <bits/stdc++.h>
 using namespace std;
 
 long long minDifference(int n, vector<int> &jobs, long long k){

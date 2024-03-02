@@ -60,9 +60,28 @@ int minOps(string s) {
     return s.length() - j; 
 }
 
+int approach2(string s){
+    int i = 0, j = s.length()-1;
+    int count = 0;
+    while(i < s.length()-1) {
+        if(s[i] == s[j]){
+            i++;
+            j--;
+        } else {
+            i++;
+            count++;
+        }
+    }
+    return count;
+}
+
 int main() {
     cout << minOps("0100110") << endl; // 3
+    cout << approach2("0100110") << endl;
     cout << minOps("00110101") << endl; // 3
+    cout << approach2("00110101") << endl; 
     cout << minOps("0101011010") << endl; // 2
+    cout << approach2("0101011010") << endl;
     cout << minOps("101") << endl; // 0
+    cout << approach2("101") << endl;
 }

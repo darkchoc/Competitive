@@ -29,7 +29,7 @@ int getMinTime(vector<int> firstReleaseTime, vector<int> firstDuration, vector<i
     for(int i=0; i<firstReleaseTime.size(); i++)
         minTimeWhenFirstMovieEnds = min(minTimeWhenFirstMovieEnds, firstReleaseTime[i] + firstDuration[i]);
 
-    // now we need to check which movie from second genre should be see to get min time overall.
+    // now we need to check which movie from second genre should we see to get min time overall.
     int ans = INT_MAX;
     for(int i=0; i<secondReleaseTime.size(); i++){
         int overallEndTime;

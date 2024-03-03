@@ -17,9 +17,11 @@ Let's scale this new API.
 """
 Things I need to see:
 
-1. How to make the sendEmailVendor call in a way that it can timeout (and cancel request if not yet sucessful?)
-2. When extending to have multiple emails and messages simultaneously, how do send multiple requests at once? -> Basically multithreading in python
-3. When having multiple vendors, how to open multiple connections in a multithreaded manner. Should threadpool be for every vendor? Or should we send multiple requests to every vendor? Basically might need to do intelligent load balancing and checking that if one vendor is failing to send message, try next one.
+1. How to send multiple email requests to a vendor in a multithreaded manner ? Thread pools ? 
+2. Can it be made asynchronous? Would it make sense to make it async? If we are using thread pools, I don't think it would make sense to make email requests async.
+3. How to put a timeout in place for the email request sent to vendor? Also if timeout reached, how to cancel request sent to vendor?  
+4. When multiple email vendors, how to send multiple requests to each? Should there be a threadpool for each vendor? Or can we implement some job queue from where vendors can pick up messages? Or should a central coordinator assign messages to vendors? 
+5. Benefit of latter approach is that central coordinator can load balance and also implement some retry mechanism for emails that failed to send by one vendor.
 
 """
 
@@ -135,6 +137,56 @@ def send_emails_form():
     
     return jsonify({'status': 'failure', 'message': 'Form not validated on submit'}), 400
 
+
+# PART 2.2 (but keeping it single threaded at the moment)
+
+def sendEmailVendor2(email, message):
+    print("Vendor2 -> Email:" + email + " message:" + message)
+    return True
+
+def sendEmailVendor3(email, message):
+    print("Vendor3 -> Email:" + email + " message:" + message)
+    return True
+
+available_third_party_tools = [sendEmailVendor, sendEmailVendor2, sendEmailVendor3]
+
+def distribute_emails(email_messages, tools):
+    # currently sending emails to tools in round robin fashion
+    responses = []
+    for i, email_message in enumerate(email_messages):
+        email = email_message.get('email')
+        message = email_message.get('message')
+
+        if not email or not message:
+            responses.append({'status':'failure', 'message': 'email or message not present'})
+        else:
+            success = tools[i%len(tools)](email, message)
+            if success:
+                responses.append({'status': 'success'})
+            else:
+                responses.append({'status':'failure', 'message':'Failed to send message'})
+    status_code = 200 if all(response.get('status')=='success' for response in responses) else 500
+    return responses, status_code
+
+@app.route('/send_emails_tools', methods=['POST'])
+def send_emails_tools():
+    request_data = request.get_json()
+    email_messages = request_data.get('email_messages')
+    tools = request_data.get('tools')
+    if not email_messages or not isinstance(email_messages, list):
+        return jsonify({'status': 'failure', 'message': 'email_messages must be non empty array'}), 400
+    
+    if not tools:
+        tools = [tool for tool in available_third_party_tools]
+    elif not isinstance(tools, list):
+        return jsonify({'status': 'failure', 'message': 'tools must be a non empty array'}), 400
+    else:
+        # important. Since we don't have a separate module where we're keeping email vendors, we have to use global. Otherwise let's say we had a module called emailVendor, then we could have used: func = getattr(emailVendor, func_name_in_string). 
+        tools = [globals().get(x) for x in tools if globals().get(x) in available_third_party_tools]  
+        if len(tools) == 0:
+            return jsonify({'status': 'failure', 'message': 'invalid set of tools provided. Options: ' + str([tool.__name__ for tool in available_third_party_tools])}), 400
+    
+    return distribute_emails(email_messages, tools)
 
 
 if __name__ == '__main__':

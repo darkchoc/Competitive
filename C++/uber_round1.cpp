@@ -1,5 +1,4 @@
 #include <iostream>
-#include <jsoncpp/json/json.h>
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -63,6 +62,7 @@ int converge2(vector<int> &arr, int n){
   int ele1 = -1;
   int ele2 = -1;
   int ele3 = -1;
+  int max_=arr[0], min_=arr[0];
   for(int i=0; i<arr.size(); i++){
     max_ = max(max_, arr[i]);
     min_ = min(min_, arr[i]);

@@ -57,7 +57,7 @@ class SegmentTree {
 
                 It would be of this type.
             */
-            segmentTree.resize(4*size, 0); // there will be 2*n - 1 nodes.
+            segmentTree.resize(4*size, 0); 
         }
 
         void incrementByOne(int index){

@@ -1,6 +1,10 @@
 /*
 https://leetcode.com/discuss/interview-question/1901363/Quora-or-On-site-New-Grad-2022-or-Sequence-of-Strings
 
+https://leetcode.ca/all/1256.html
+
+
+
 Given sequence of strings:
 n - f(n)
 0 - ""

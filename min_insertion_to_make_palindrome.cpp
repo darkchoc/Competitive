@@ -20,6 +20,9 @@ In the case of appending characters to string (see min_appends_to_make_palindrom
           baabab
     So we are seeing that if we reach end of s (text), then what is the index in pattern (srev). And that is the length of palindrome, remaining letters need to be added to end.
 
+
+Another option is to use a modified string and calcualte LPS on that. Basically, append the reverse of the string after adding a non-alphanumeric character. And then create LPS array on top of that. Detailed explanation in min_appends_to_make_palindromic.cpp
+
 */
 
 #include <bits/stdc++.h>
@@ -37,15 +40,16 @@ void computeLpsArray(string &s, vector<int> &lps){
             lps.push_back(len);
             i++;
         } else {
-            if(len == 0)
+            if(len == 0) {
+                lps.push_back(0);
                 i++;
-            else
+            } else
                 len = lps[len-1];
         }
     }
 }
 
-string solve(string &s){
+string solveUsingKMP(string &s){
     string srev = s;
     reverse(srev.begin(), srev.end());
 
@@ -71,8 +75,19 @@ string solve(string &s){
     return strToInsertInFront;
 }
 
+int solveUsingModifiedLPS(string s) {
+    string revS = s;
+    reverse(revS.begin(), revS.end());
+    string combined = s + "!" + revS;
+    vector<int> lps;
+    computeLpsArray(combined, lps);
+    int longestPalindromicPrefix = lps[combined.length()-1];
+    return (s.length()-longestPalindromicPrefix);
+}
+
 int main(){
     string s;
     cin >> s;
-    cout << solve(s) << endl;
+    cout << solveUsingKMP(s) << endl;
+    cout << solveUsingModifiedLPS(s) << endl;
 }

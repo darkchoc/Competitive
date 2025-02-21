@@ -3,6 +3,9 @@ Use of KMP Algo. Given string, find minimum number of characters that need to be
 
 To do this, I applied a part of KMP algo. If we reverse the string and treat it as the pattern while text is the original string, then when we reach the end of the string, the number of characters of the pattern that have matched till that point give the length of palindrome that is present at the end of the string. The characters not present are the ones that need to be added!
 
+There is also an other way to solve this, that can work if we are given that characters are say, alphanumeric only. Then, if we append original string to reverse of string to original string, but after appending a non-alpha-numeric character (For example: string=cdaba, rev=abadc, combined=abadc!cdaba. Here we added orignal string after a "!"), then we can just calculate LPS for this and the value at the end, signifying the longest prefix that is also the suffix, will tell us how much of the string is palindromic at the end. We added "!" so that it never happens that first half of string overlaps with second half (the reverse of string). Basically the prefix and suffix won't overlap.
+ 
+
 Check min_appends_to_make_palindrome.cpp!!!!!
 */
 
@@ -31,7 +34,7 @@ void computeLpsArray(string &s, vector<int> &lps){
     }
 }
 
-string solve(string s){
+string solveUsingKMP(string s){
     string srev = s;
     reverse(srev.begin(), srev.end());
 
@@ -60,8 +63,22 @@ string solve(string s){
     return strToAppend;
 }
 
+int solveUsingModifiedLPS(string s) {
+    string revS = s;
+    reverse(revS.begin(), revS.end());
+    string combined = revS + "!" + s;
+    vector<int> lps;
+    // use the same lps function as earlier
+    computeLpsArray(combined, lps);
+    int longestPalindromixSuffix = lps[combined.length()-1]; // means these many characters matched.
+    // min appends
+    int minAppends = s.length()-longestPalindromixSuffix;
+    return minAppends;
+}
+
 int main(){
     string s; //"aacecaaa"
     cin >> s;
-    cout << solve(s) << endl;
+    cout << solveUsingKMP(s) << endl;
+    cout << solveUsingModifiedLPS(s) << endl;
 }

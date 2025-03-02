@@ -120,4 +120,6 @@ int main(){
     cout << isValid(input) << endl; //0
     input = {{"P2", "N", "P1"},{"P3", "N", "P2"},{"P1", "N", "P3"}};
     cout << isValid(input) << endl; //0
+    input = {{"P2", "N", "P1"},{"P3", "N", "P2"},{"P3", "N", "P1"},{"P2","S","P3"},{"P1","S","P2"}};
+    cout << isValid(input) << endl; // 1
 }

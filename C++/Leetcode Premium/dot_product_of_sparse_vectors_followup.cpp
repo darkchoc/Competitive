@@ -8,7 +8,8 @@ For this we can modify our two pointer approach is length of both vectors after 
 similar.
 */
 
-#include <bits/stdc++.h>
+#include <vector>
+#include <iostream>
 using namespace std;
 
 class CompressedVector {

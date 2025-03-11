@@ -86,7 +86,8 @@ bool isValid(vector<vector<string> > &input){
             yplane.push_back(Edge(p1, p2, -1));
         }
         if(dir=="N"||dir=="S"){
-            xplane.push_back(Edge(p1, p2, 0));
+            xplane.push_back(Edge(p1, p2, 0)); // See how when we are adding 0 edges, we are adding to both sides, but when adding -1 edges, we're only
+            // adding in one direction.
             xplane.push_back(Edge(p2, p1, 0));
         }
         if(dir=="E"||dir=="NE"||dir=="SE"){
@@ -115,8 +116,27 @@ bool isValid(vector<vector<string> > &input){
 
 int main(){
     vector<vector<string> > input = {{"P2", "N", "P1"},{"P3", "N", "P2"},{"P3", "N", "P1"}};
+    /*
+    P3
+    ^
+    |
+    P2
+    ^
+    |
+    P1
+    */
     cout << isValid(input) << endl; //1
     input = {{"P2", "N", "P1"},{"P3", "N", "P2"},{"P3", "NE", "P1"}};
+    /*
+    P3     
+    ^
+    |
+    P2    P3
+    ^     ^
+    |   /
+    P1
+
+    */
     cout << isValid(input) << endl; //0
     input = {{"P2", "N", "P1"},{"P3", "N", "P2"},{"P1", "N", "P3"}};
     cout << isValid(input) << endl; //0

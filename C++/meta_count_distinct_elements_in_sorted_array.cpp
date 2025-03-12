@@ -33,6 +33,11 @@ Approach 3:
 
     So: Time Complexity: O(K) in best case, O(N) in worst case. Space complexity: O(logK) = height of recursion stack.
 
+    Actually, I'm wrong. Worst case for the above algo would be say: we have [1 2 2 2...... 2] say this array is of size 1 million. Then first we'll
+    divide array in 2, (500K), we futher divide the left half into two of 250K, and so on, till we finally are left with the array [1,2]
+    Which we further divide into [1] and [2]. This is logN. So in worst case, for each unique element, we have to divide the array like this and we 
+    may have time complexity = O(KlogN).
+
 
 This makes sense, because consider we have 1 million elements, the first 500k elements are 1 and second half is 2. If we increase the size of array to 10
 million (with 5m of each 1 and 2), then Approach 2 will take more time as now binary search is over 10 million elements and not 1 million. 

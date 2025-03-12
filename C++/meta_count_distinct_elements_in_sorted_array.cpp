@@ -35,8 +35,9 @@ Approach 3:
 
     Actually, I'm wrong. Worst case for the above algo would be say: we have [1 2 2 2...... 2] say this array is of size 1 million. Then first we'll
     divide array in 2, (500K), we futher divide the left half into two of 250K, and so on, till we finally are left with the array [1,2]
-    Which we further divide into [1] and [2]. This is logN. So in worst case, for each unique element, we have to divide the array like this and we 
-    may have time complexity = O(KlogN).
+    Which we further divide into [1] and [2]. This is logN. So in worst case, we keep dividing the array into smaller and smaller parts. I think it would
+    be logN time complexity. On the divided array, we don't do any other operation, it's just O(1) operations (i.e., either return 1, or return break into
+    further 2 parts). So TIME COMPLEXITY: logN.  In worst case, O(N). Space: O(logN) as well. 
 
 
 This makes sense, because consider we have 1 million elements, the first 500k elements are 1 and second half is 2. If we increase the size of array to 10

@@ -13,10 +13,17 @@ private:
     
     void bubbleUp(int ind){
         if(ind == 0) return;
-        int parent = ind/2;
+        int parent = (ind-1)/2;
         if(heap[parent] > heap[ind]){
             swap(heap[parent], heap[ind]);
             bubbleUp(parent);
+        }
+    }
+
+    void bubbleUpIterativeImplementation(int ind){
+        while(ind > 0 && heap([(ind-1)/2] > heap[ind])){
+            swap(heap[(ind-1)/2], heap[ind]);
+            ind = (ind-1)/2;
         }
     }
     

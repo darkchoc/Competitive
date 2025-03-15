@@ -40,7 +40,11 @@ class CompressedVector {
                 // now both i and j are pointing to an interval. We see what's the overlap, and add that
                 // to the answer. After that, we incremenet i, if that interval is ending first. 
                 // Otherwise increment j.
-                int overlap = min(v[i].first.second, v2[j].first.second) - max(v[i].first.first, v2[j].first.first) + 1; // +1 because if range of overlap is index p to q, then overlap = q-p+1
+                int overlap = min(v[i].first.second, v2[j].first.second) - max(v[i].first.first, v2[j].first.first);
+                if(overlap >= 0)
+                    overlap += 1; // +1 because if range of overlap is index p to q, then overlap = q-p+1
+                else
+                    overlap = 0; // negative overlap doesn't make sense. 
                 ans += overlap*v[i].second*v2[j].second;
                 if(v[i].first.second < v2[j].first.second)
                     i++;

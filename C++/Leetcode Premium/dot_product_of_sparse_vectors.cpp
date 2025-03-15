@@ -44,7 +44,9 @@ n == nums1.length == nums2.length
 // SparseVector v2 = new SparseVector(nums2);
 // int ans = v1.dotProduct(v2);
 
-#include <bits/stdc++.h>
+// #include <bits/stdc++.h>
+#include <iostream>
+#include <map>
 using namespace std;
 
 class SparseVectorInefficient {
@@ -94,12 +96,12 @@ class SparseVectorEfficient {
                     v.emplace_back(i, nums[i]);
         }
 
-        vector<pair<int, int> >& getVector(){
+        const vector<pair<int, int> >& getVector(){ // NOTICE How we are passing back a reference to const vector, so that others can't modify this.
             return v;
         }
 
         int dotProduct(SparseVectorEfficient v2){
-            vector<pair<int, int> > &vec2 = v2.getVector();
+            const vector<pair<int, int> > &vec2 = v2.getVector(); // While receiving also, it has to be const.
             int ans = 0;
             // if both are sparse, we can normally iterate (TWO POINTER APPROACH)
             int i = 0, j = 0;
@@ -141,19 +143,22 @@ class SparseVectorDiffLength {
                     v.emplace_back(i,nums[i]);
         }
 
-        vector<pair<int, int> >& getVector(){
+        const vector<pair<int, int> >& getVector(){
             return v;
         }
 
         int dotProduct(SparseVectorDiffLength vec2){
-            vector<pair<int, int> > &v2 = vec2.getVector();
-            vector<pair<int, int> > &smaller = (v.size() > v2.size())?v2:v;
-            vector<pair<int, int> > &larger  = (v.size() > v2.size())?v:v2;
+            const vector<pair<int, int> > &v2 = vec2.getVector();
+            const vector<pair<int, int> > &smaller = (v.size() > v2.size())?v2:v;
+            const vector<pair<int, int> > &larger  = (v.size() > v2.size())?v:v2;
             // now iterate on smaller and apply binary search on larger
             int ans = 0;
+            int l = 0; // while binary searching on larger vector, say we found something at index 2 (so after binary search, l=r=2), we can be
+            // sure that the next time we binary search, we will be searching for a bigger number, and that must be towards the right of this
+            // current number, so instead of starting binary search from l=0 again, we can keep l=index where previous search ended.
             for(int i=0; i<smaller.size(); i++){
                 int index = smaller[i].first;
-                int l = 0, r = larger.size()-1;
+                int r = larger.size()-1;
                 // find if index exists in larger
                 while(l <= r){ // equal condition ensures that we process the equality case too. in case 
                 // at the very end, when l==r, then larger[l].first = index. 

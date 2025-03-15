@@ -47,6 +47,10 @@ public:
         // finally, before returning, let's try to limit "count" so that it doesn't end up overflowing
         // after a long time
         // if count becomes 2*size, we can change it back to size.
+        // Other option was to make count = 0 when count reached windowSize. But that woudl be wrong as while calculating
+        // average, we are taking min(count, windowSize). So if we bring count to 0, we'll again start as if there are no
+        // elements in the window. Rather, it makes sense to say there are 'windowSize' elements in the window. So hence,
+        // the following!
         if(count==2*windowSize) count = windowSize;
         return avg;
     }

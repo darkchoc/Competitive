@@ -51,7 +51,6 @@ bool valid_palindrome_iii(string s, int k){
 bool valid_palindrome_iii_second_way(string s, int k) {
     int n = s.length();
     vector<vector<int> > dp (n, vector<int> (n, 0)); // dp[i][j] --> if i<=j, it gives max palindrome length from s[i...j]. If i>j, it will be 0.
-    int maxLen = 0;
     for(int i=0; i<n; i++)
         dp[i][i]=1; 
     for(int i=n-2; i>=0; i--){
@@ -60,19 +59,36 @@ bool valid_palindrome_iii_second_way(string s, int k) {
                 dp[i][j] = 2 + dp[i+1][j-1];
             else
                 dp[i][j] = max(dp[i+1][j], dp[i][j-1]);
-            maxLen = max(maxLen, dp[i][j]);
         }
     }
-    return n-maxLen <= k;
+    return n-dp[0][n-1] <= k;
+}
+
+bool valid_palindrome_iii_third_way(string s, int k) {
+    int n = s.length();
+    vector<vector<int> > dp (n, vector<int> (n, 0)); // dp[i][j] -> if i <= j, gives max palindrome length from s[i...j]. If i>j, it will be 0
+    for(int l=1; l<=n; l++) { // l = length of string in consideration
+        for(int i=0; i+l-1 < n; i++) { // i -> starting point
+            if(l==1) dp[i][i]=1; // handling this case separately as otherwise in below case, we'll check for dp[1][-1] (when i=0) and dp[n][n-2] (when i=n-1)
+            else if(s[i]==s[i+l-1])
+                dp[i][i+l-1] = 2 + dp[i+1][i+l-1-1];
+            else
+                dp[i][i+l-1] = max(dp[i][i+l-1-1], dp[i+1][i+l-1]);
+        }
+    }
+    return n - dp[0][n-1] <= k;
 }
 
 int main() {
     cout << valid_palindrome_iii("abcdeca", 2) << endl; // true
     cout << valid_palindrome_iii("sielvxeks", 3) << endl; // false
-    cout << valid_palindrome_iii("sielvxeks", 4) << endl; // false
+    cout << valid_palindrome_iii("sielvxeks", 4) << endl; // true
     cout << valid_palindrome_iii_second_way("abcdeca", 2) << endl; // true
     cout << valid_palindrome_iii_second_way("sielvxeks", 3) << endl; // false
-    cout << valid_palindrome_iii_second_way("sielvxeks", 4) << endl; // false
+    cout << valid_palindrome_iii_second_way("sielvxeks", 4) << endl; // true
+    cout << valid_palindrome_iii_third_way("abcdeca", 2) << endl; // true
+    cout << valid_palindrome_iii_third_way("sielvxeks", 3) << endl; // false
+    cout << valid_palindrome_iii_third_way("sielvxeks", 4) << endl; // true
 }
 
 /*

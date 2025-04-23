@@ -5,7 +5,7 @@ Slight confusion regarding whether "end" of slot is part of the slot or not. Als
 
 */
 
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 void solve(vector<vector<int> > slot1, vector<vector<int> > slot2, int duration){

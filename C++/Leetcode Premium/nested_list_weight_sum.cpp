@@ -16,7 +16,7 @@ Explanation: One 1 at depth 1, one 4 at depth 2, and one 6 at depth 3; 1 + 4*2 +
 */
 
 
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 /**
  * // This is the interface that allows for creating nested lists.

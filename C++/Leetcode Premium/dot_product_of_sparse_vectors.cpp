@@ -50,8 +50,14 @@ n == nums1.length == nums2.length
 using namespace std;
 
 class SparseVectorInefficient {
+    /*
+    Time complexity:
+    Contructing the vector: O(n)
+    Dot Product: O(min(n, m))
+    */
+
     private:
-        map<int, int> mp;
+        unordered_map<int, int> mp;
     public:
         SparseVectorInefficient(vector<int> &nums) {
             mp.clear();
@@ -60,18 +66,18 @@ class SparseVectorInefficient {
                     mp[i]=nums[i];
         }
 
-        map<int, int>& getMap(){
+        unordered_map<int, int>& getMap(){
             return mp;
         }
 
         int dotProduct(SparseVectorInefficient v2){
-            map<int, int> &mp2 = v2.getMap(); //getting map by reference
+            unordered_map<int, int> &mp2 = v2.getMap(); //getting map by reference
             int ans = 0;
             // FOLLOW UP: If only one vector is sparse, then we can choose the map which has less
             // elements and traverse on that only.
-            map<int,int> &smaller = (mp.size() > mp2.size())?mp2:mp;
-            map<int,int> &larger = (mp.size() > mp2.size())?mp:mp2;
-            for(map<int, int>::iterator it=smaller.begin(); it!=smaller.end(); it++){
+            unordered_map<int,int> &smaller = (mp.size() > mp2.size())?mp2:mp;
+            unordered_map<int,int> &larger = (mp.size() > mp2.size())?mp:mp2;
+            for(unordered_map<int, int>::iterator it=smaller.begin(); it!=smaller.end(); it++){
                 if(larger.find(it->first)!=larger.end())
                     ans += larger[it->first] * it->second;
             }
@@ -86,6 +92,11 @@ void runTestCaseInefficient(vector<int> nums1, vector<int> nums2){
 }
 
 class SparseVectorEfficient {
+/*
+Time complexity: 
+Constructing the vector: O(n)
+Dot Product: O(n+m)
+*/ 
     private:
         vector<pair<int,int> > v;
     public:

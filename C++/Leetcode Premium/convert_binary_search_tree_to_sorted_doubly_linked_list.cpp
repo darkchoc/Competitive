@@ -63,7 +63,8 @@ void printList(Node* head) {
 }
 
 
-void inorder_traversal(Node* root, Node* &prev){
+void inorder_traversal(Node* root, Node* &prev){ // NOTICE HOW PREV IS PASSED BY REFERENCE, so that when we again go back to parent function, we see updated
+    // prev
     if(root==NULL) return;
     inorder_traversal(root->left, prev);
     root->left = prev;

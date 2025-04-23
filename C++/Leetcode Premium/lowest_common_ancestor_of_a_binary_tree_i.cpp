@@ -5,8 +5,18 @@ the two nodes exist in the tree.
 Time complexity of solution: O(N)
 space complexity: O(h) -> recursion also requires memory on the stack.
 */
-#include <bits/stdc++.h>
 
+/*
+How to explain to an interviewer:
+-> Suppose I am a node in the tree. If I try to find p and q in my left and right child, and both return with some values, that means both sub-trees have either p or q in them. And then I must be the lowest common ancestor. In this case, I should return myself to the user.
+-> If only one subtree returns a value, then there are two cases: either the lca is somewhere below me, and I should return the lca upstream as well. 
+   Or the lca is somewhere above me, and in that case too, I should tell my upstream that I do have one of p or q within my subtree.
+-> If I am myself p or q, in that case too I should return to my upstream that I am p or q.
+
+This works because we know both p and q exist. So root of tree must be the lca if nothing else. 
+*/
+
+#include <iostream>
 using namespace std;
 
 struct TreeNode {

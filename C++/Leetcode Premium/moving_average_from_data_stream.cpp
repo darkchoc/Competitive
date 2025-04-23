@@ -16,7 +16,7 @@ m.next(5) = (10 + 3 + 5) / 3
  * double param_1 = obj.next(val);
  */
 
-#include <bits/stdc++.h>
+#include <iostream>
 using namespace std;
 
 class MovingAverage {

@@ -5,7 +5,7 @@ Given the root of a binary tree, return the lowest common ancestor (LCA) of two 
 Time complexity: O(n)
 Space complexity: O(h) -> recursion uses memory on stack
 */
-#include <bits/stdc++.h>
+#include <iostream>
 
 using namespace std;
 

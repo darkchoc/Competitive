@@ -82,6 +82,45 @@ bool solve(string abb, string s) {
     return i==abb.length() && j==s.length();
 }
 
+string convertToFull(string a){
+    string full = "";
+    int i = 0;
+    while(i < a.length()){
+        if(a[i]>='a' && a[i]<='z') {
+            full.push_back(a[i]);
+            i++;
+        } else {
+            int num = 0;
+            while(i < a.length() && a[i]>='0' && a[i]<='9') {
+                num = num*10 + (a[i]-'0');
+                if(num > 20) return "0"; // 0 signifies a bad string. Since our full string should only have letters or "-"
+                i++;
+            }
+            // now add "-" num times
+            for(int j=0; j<num; j++)
+                full.push_back('-');
+        }
+    }
+    return full;
+}
+
+int solveFollowUp(string a, string b) {
+
+    /*
+    One quick way is to convert both strings to their full forms, by replacing substituted characters with some symbol, say "-".
+    At the end, we can compare if both strings are of same length and if while iterating on them, we can match every character.
+    "-" matches with anything. 
+
+    This will work if length of strings are manageable.
+    */
+    string aFull = convertToFull(a);
+    string bFull = convertToFull(b);
+    if(aFull.length() != bFull.length()) return false;
+    for(int i=0; i<aFull.length(); i++)
+        if(aFull[i]!='-' && bFull[i]!='-' && aFull[i]!=bFull[i]) return false;
+    return true;
+}
+
 int main() {
     cout << solve("s10n", "substitution") << endl; // 1
     cout << solve("sub4u4", "substitution") << endl; // 1
@@ -92,5 +131,23 @@ int main() {
     cout << solve("s0ubstitution", "substitution") << endl; // 0 - replaces empty string
     cout << solve("i12iz4n", "internationalization") << endl; // 1 
     cout << solve("a2e", "apple") << endl; // 0 - replaces empty string
+
+    // FOLLOW UP: What if both are abbreviations? Also, now I'm allowing leading 0s
+
+    cout << "Follow up" << endl;
+    cout << solveFollowUp("s10n", "s4it4n") << endl; // 1
+    cout << solveFollowUp("sub4u4", "s8ion") << endl; // 1
+    cout << solveFollowUp("12", "substitution") << endl; // 1
+    cout << solveFollowUp("12", "12") << endl; // 1
+    cout << solveFollowUp("12", "13") << endl; // 0
+    cout << solveFollowUp("su3i1u2on", "0sub0stit2ion0") << endl; // 1
+    cout << solveFollowUp("s55n", "substitution") << endl; // 0
+    cout << solveFollowUp("s010n", "subs03ution") << endl; // 1 
+    cout << solveFollowUp("s0ubstitution", "substitution") << endl; // 1
+    cout << solveFollowUp("i12iz4n", "internationa8") << endl; // 1 
+    cout << solveFollowUp("a2e", "apple") << endl; // 0 
+    cout << solveFollowUp("", "0") << endl; // 1
+    cout << solveFollowUp("0", "0") << endl; // 1
+    cout << solveFollowUp("", "") << endl; // 1
 }
 

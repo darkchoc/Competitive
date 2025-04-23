@@ -75,7 +75,7 @@ row, and in case the cell is part of any of the two diagonals, then the diagonal
 The move operation would be O(n) in this case. The space complexity will be O(n^2).
 
 Option 2: (BETTER)
-I was thinking if we can make it better and I think if we assing +1 to player one and -1 to player two,
+I was thinking if we can make it better and I think if we assign +1 to player one and -1 to player two,
 and we have a sum for each row, each column, and the two diagonals, then we can add 1 to the row/col and
 diagonal (if cell falls in the diagonal) when player 1 makes a move, and subtract 1 when player to makes
 a move. If after addition/subtration, the sum becomes +n or -n, it means the player has won.

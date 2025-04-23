@@ -92,7 +92,7 @@ string getOrdering(vector<string> words){
       }
     }
     if(j==words[i].length()) return ""; // this means words[i] and words[i-1] were same initially, 
-    // but words[i-1] was longer. Example "ab", followed by "a". This is cleary wrong.
+    // but words[i-1] was longer. Example "ab", followed by "a". This is clearly wrong.
   }
 
   // check which letters are even present in words present in words array
